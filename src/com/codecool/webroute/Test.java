@@ -13,13 +13,11 @@ public class Test {
         HttpServer server = HttpServer.create(new InetSocketAddress(8000), 0);
         Class<Requests> obj = Requests.class;
         for (Method method : obj.getDeclaredMethods()) {
-            System.out.println(method.getName());
             if (method.isAnnotationPresent(WebRoute.class)) {
                 Annotation annotation = method.getAnnotation(WebRoute.class);
                 WebRoute test = (WebRoute) annotation;
-                if (test.value().equals("/second")) {
-                    System.out.println("lol");
-                    server.createContext(test.value(), method.invoke(o));
+                if (test.value().equals("/first")) {
+                    server.createContext(test.value(), new Requests());
                     server.setExecutor(null); // creates a default executor
                     server.start();
                 }
